@@ -10,9 +10,11 @@ export default function Register() {
     e.preventDefault();
 
     try {
-      await api.post("/auth/signup", { name, email, password });
+      // FIXED ROUTE
+      await api.post("/api/auth/register", { name, email, password });
       alert("Registration successful!");
     } catch (error) {
+      console.error(error);
       alert("Registration failed.");
     }
   };
