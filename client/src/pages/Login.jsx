@@ -1,4 +1,4 @@
-import { useState } from "react";
+mport { useState } from "react";
 import api from "../services/api";
 
 export default function Login() {
@@ -9,11 +9,14 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const response = await api.post("/auth/login", { email, password });
+      // FIXED ROUTE
+      const response = await api.post("/api/auth/login", { email, password });
+
       localStorage.setItem("token", response.data.token);
       alert("Login successful!");
       window.location.href = "/projects";
     } catch (error) {
+      console.error(error);
       alert("Login failed.");
     }
   };
