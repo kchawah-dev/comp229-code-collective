@@ -6,8 +6,8 @@ export default function ProjectList() {
   const [projects, setProjects] = useState([]);
 
   const loadProjects = async () => {
-    const res = await api.get("/projects");
-    setProjects(res.data);
+   const res = await api.get("/api/projects");   // <-- FIXED
+   setProjects(res.data);
   };
 
   useEffect(() => {
@@ -16,7 +16,7 @@ export default function ProjectList() {
 
   const deleteProject = async (id) => {
     if (!confirm("Delete this project?")) return;
-    await api.delete(`/projects/${id}`);
+    await api.delete(`/api/projects/${id}`);      // <-- FIXED
     loadProjects();
   };
 

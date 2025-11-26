@@ -7,9 +7,16 @@ export default function ProjectDetails() {
   const [project, setProject] = useState(null);
 
   useEffect(() => {
-    api.get(`/projects/${id}`).then((res) => {
-      setProject(res.data);
-    });
+    const loadProject = async () => {
+      try {
+        const res = await api.get(`/api/projects/${id}`); // FIXED
+        setProject(res.data);
+      } catch (err) {
+        console.error("Failed to load project:", err);
+      }
+    };
+
+    loadProject();
   }, [id]);
 
   if (!project) return <p>Loading...</p>;

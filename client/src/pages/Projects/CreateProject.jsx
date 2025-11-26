@@ -11,9 +11,16 @@ export default function CreateProject() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await api.post("/projects", { title, description });
-    alert("Project created!");
-    navigate("/projects");
+    try {
+      // Correct backend route
+      await api.post("/api/projects", { title, description });
+
+      alert("Project created!");
+      navigate("/projects");
+    } catch (error) {
+      console.error(error);
+      alert("Failed to create project.");
+    }
   };
 
   return (
@@ -32,7 +39,7 @@ export default function CreateProject() {
           onChange={(e) => setDescription(e.target.value)}
           style={styles.textbox}
         />
-        <button style={styles.button}>Create Project</button>
+        <button type="submit" style={styles.button}>Create Project</button>
       </form>
     </div>
   );

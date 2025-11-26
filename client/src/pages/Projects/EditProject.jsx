@@ -10,18 +10,30 @@ export default function EditProject() {
   const [description, setDescription] = useState("");
 
   useEffect(() => {
-    api.get(`/projects/${id}`).then((res) => {
-      setTitle(res.data.title);
-      setDescription(res.data.description);
-    });
+    const loadProject = async () => {
+      try {
+        const res = await api.get(`/api/projects/${id}`); // FIXED
+        setTitle(res.data.title);
+        setDescription(res.data.description);
+      } catch (err) {
+        console.error("Failed to load project:", err);
+      }
+    };
+
+    loadProject();
   }, [id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await api.put(`/projects/${id}`, { title, description });
-    alert("Project updated!");
-    navigate(`/projects`);
+    try {
+      await api.put(`/api/projects/${id}`, { title, description }); // FIXED
+      alert("Project updated!");
+      navigate("/projects");
+    } catch (err) {
+      console.error("Update failed:", err);
+      alert("Failed to update project.");
+    }
   };
 
   return (
@@ -49,5 +61,10 @@ const styles = {
   form: { display: "flex", flexDirection: "column", width: "300px" },
   input: { padding: "10px", marginBottom: "10px" },
   textbox: { padding: "10px", marginBottom: "10px", height: "100px" },
-  button: { padding: "10px", background: "#333", color: "white", border: "none" },
+  button: {
+    padding: "10px",
+    background: "#333",
+    color: "white",
+    border: "none",
+  },
 };
